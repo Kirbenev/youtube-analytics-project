@@ -14,6 +14,16 @@ class Channel:
         """Экземпляр инициализируется id канала. Дальше все данные будут подтягиваться по API."""
         self.channel_id = channel_id
         self.youtube = build('youtube', 'v3', developerKey=self.api_key)
+        channel_data = self.youtube.channels().list(id=self.channel_id, part='snippet').execute()
+
+
+       # id
+        self.title = channel_data["items"][0]['snippet']['title']
+       # description
+        #url
+        #subscriberCount
+        #videoCount
+        #viewCount
 
     def print_info(self) -> None:
         """Выводит в консоль информацию о канале."""
