@@ -18,9 +18,34 @@ class Channel:
         self.title = channel_data["items"][0]['snippet']['title']
         self.description = channel_data["items"][0]['snippet']['description']
         self.url = f'https://youtube.com/channel/{self.__channel_id}'
-        self.subscriber_count = channel_data["items"][0]['statistics']['subscriberCount']
-        self.video_count = channel_data["items"][0]['statistics']['videoCount']
-        self.view_count = channel_data["items"][0]['statistics']['viewCount']
+        self.subscriber_count = int(channel_data["items"][0]['statistics']['subscriberCount'])
+        self.video_count = int(channel_data["items"][0]['statistics']['videoCount'])
+        self.view_count = int(channel_data["items"][0]['statistics']['viewCount'])
+
+    def __str__(self):
+        """Возвращающает название и ссылку на канал по шаблону <название_канала> (<ссылка_на_канал>)"""
+        return f'{self.title}({self.url})'
+
+    def __add__(self, other):
+        return self.subscriber_count + other.subscriber_count
+
+    def __sub__(self, other):
+        return self.subscriber_count - other.subscriber_count
+
+    def __gt__(self, other):
+        return self.subscriber_count > other.subscriber_count
+
+    def __ge__(self, other):
+        return self.subscriber_count >= other.subscriber_count
+
+    def __lt__(self, other):
+        return self.subscriber_count < other.subscriber_count
+
+    def __le__(self, other):
+        return self.subscriber_count <= other.subscriber_count
+
+    def __eq__(self, other):
+        return self.subscriber_count == other.subscriber_count
 
     def print_info(self) -> None:
         """Выводит в консоль информацию о канале."""
