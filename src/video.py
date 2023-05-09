@@ -1,8 +1,8 @@
-import os
+import os, isodate
 from googleapiclient.discovery import build
 
 class Video:
-    """Класс для ютуб-канала"""
+    """Класс для ютуб-видео"""
     api_key: str = os.getenv('YT_API_KEY')
     youtube = build('youtube', 'v3', developerKey=api_key)
 
@@ -13,9 +13,10 @@ class Video:
                                                ).execute()
 
         self.video_title: str = video_response['items'][0]['snippet']['title']
-        self.url: str = 'https://www.youtube.com/watch?v=' + self.id_video
+        self.url: str = f"https://youtu.be/{self.id_video}"
         self.view_count: int = video_response['items'][0]['statistics']['viewCount']
-        self.like_count: int = video_response['items'][0]['statistics']['likeCount']
+        self.like_count: int = int(video_response['items'][0]['statistics']['likeCount'])
+        self.duration: str = isodate.parse_duration(video_response['items'][0]["contentDetails"]["duration"])
 
     def __str__(self):
         return self.video_title
